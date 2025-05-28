@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: <your-registry>/<your-project>/rag-frontend:latest
+          image: image-registry.openshift-image-registry.svc:5000/openshift-terminal/rag-frontend:latest:latest
           ports:
             - containerPort: 3000
           imagePullPolicy: Always
