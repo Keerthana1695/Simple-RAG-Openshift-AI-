@@ -1,5 +1,5 @@
 # backend/Dockerfile
-FROM python:3.9-alphine
+FROM python:3.9-alpine
 WORKDIR /app
 # This includes vector_index.pkl
 COPY . .  
