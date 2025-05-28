@@ -1,3 +1,4 @@
+# === deploy/frontend-deployment.yaml ===
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,9 +15,9 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: default-route-openshift-image-registry.apps.cluster-zgkvs.zgkvs.sandbox163.opentlc.com/openshift-terminal/rag-frontend:latest:latest
+           image: default-route-openshift-image-registry.apps.cluster-zgkvs.zgkvs.sandbox163.opentlc.com/openshift-terminal/rag-frontend:latest:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 80
           imagePullPolicy: Always
 ---
 apiVersion: v1
@@ -27,5 +28,19 @@ spec:
   selector:
     app: rag-frontend
   ports:
-    - port: 3000
-      targetPort: 3000
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: rag-frontend
+spec:
+  to:
+    kind: Service
+    name: frontend
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
