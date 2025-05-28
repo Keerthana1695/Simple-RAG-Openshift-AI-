@@ -1,20 +1,24 @@
 from flask import Flask, request, jsonify
-import pickle
-from langchain.vectorstores import FAISS
-from langchain.embeddings import HuggingFaceEmbeddings
+from your_infer_module import infer_with_template  # import your function
 
 app = Flask(__name__)
 
-# Load FAISS index from local pickle
-with open("vector_index.pkl", "rb") as f:
-    vectorstore = pickle.load(f)
+# Load prompt template at startup
+with open("data/template.txt") as f:
+    prompt_template = f.read()
 
-@app.route("/query", methods=["POST"])
+@app.route('/query', methods=['POST'])
 def query():
-    user_query = request.json["query"]
-    docs = vectorstore.similarity_search(user_query, k=3)
-    answers = [doc.page_content for doc in docs]
-    return jsonify({"results": answers})
+    data = request.json
+    user_question = data.get("query", "")
+    if not user_question:
+        return jsonify({"error": "No query provided"}), 400
 
-if __name__ == "__main__":
+    # Use your infer function
+    answer = infer_with_template(user_question, prompt_template)
+
+    return jsonify({"answer": answer})
+
+if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
+
