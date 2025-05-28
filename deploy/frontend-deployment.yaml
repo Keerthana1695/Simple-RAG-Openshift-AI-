@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: image-registry.openshift-image-registry.svc:5000/openshift-terminal/rag-frontend:latest:latest
+          image: default-route-openshift-image-registry.apps.cluster-zgkvs.zgkvs.sandbox163.opentlc.com/openshift-terminal/rag-frontend:latest:latest
           ports:
             - containerPort: 3000
           imagePullPolicy: Always
