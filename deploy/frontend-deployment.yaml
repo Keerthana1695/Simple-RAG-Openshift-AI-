@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rag-frontend
+  template:
+    metadata:
+      labels:
+        app: rag-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: <your-registry>/<your-project>/rag-frontend:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: rag-frontend
+  ports:
+    - port: 3000
+      targetPort: 3000
